@@ -1,4 +1,4 @@
-const URL = "http://localhost:8080/cool";
+import { URL } from "./components/settings";
 
 function handleHttpErrors(res) {
   if (!res.ok) {
@@ -36,34 +36,17 @@ function apiFacade() {
       });
   };
 
-  function getCryptoTableRow(c){
-    return <tr>
-    <td>${c.from}</td>,
-    <td>${c.price}</td>
-    </tr>
-  }
-
-  const getAllCrypto = () => {
-    const options = makeOptions("GET", true); //True add's the token
-    return fetch(URL + "/api/crypto/all", options).then(handleHttpErrors)
-  /*  .then(data => {const allRows = data.map(c => getCryptoTableRow(c))
-    const allRowsAsStrings = allRows.join("")
-      return allRowsAsStrings;
-    });
-    */
-
-  };
-
   const fetchLoggedIn = () => {
     const options = makeOptions("GET", true);
-    return fetch(URL + "/api/info/", options).then(handleHttpErrors)
-  }
+    return fetch(URL + "/api/info/", options).then(handleHttpErrors);
+  };
 
   const fetchData = (endpoint, updateAction) => {
     const options = makeOptions("GET", true); //True add's the token
-    return fetch(URL + "/api/" + endpoint, options).then(handleHttpErrors).then((data) => updateAction(data));
+    return fetch(URL + "/api/" + endpoint, options)
+      .then(handleHttpErrors)
+      .then((data) => updateAction(data));
   };
-  
 
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -89,8 +72,7 @@ function apiFacade() {
     login,
     logout,
     fetchData,
-    getAllCrypto,
-    fetchLoggedIn
+    fetchLoggedIn,
   };
 }
 const facade = apiFacade();
